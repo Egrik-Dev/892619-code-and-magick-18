@@ -1,27 +1,31 @@
 'use strict';
 
-var setupModal = document.querySelector('.setup');
 var NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Нионго'];
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+var setupModal = document.querySelector('.setup');
 var wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 var similarListElement = setupModal.querySelector('.setup-similar-list');
 
 setupModal.classList.remove('hidden');
 
-var createRandomItem = function (arr) {
+var getRandomItem = function (arr) {
   return arr[Math.round(Math.random() * (arr.length - 1))];
 };
 
 var wizards = [];
 
-for (var i = 0; i <= 3; i++) {
-  wizards.push({
-    name: createRandomItem(NAMES) + ' ' + createRandomItem(SURNAMES),
-    coatColor: createRandomItem(COAT_COLORS),
-    eyesColor: createRandomItem(EYES_COLORS)});
-}
+var generateWizards = function (quantity) {
+  for (var i = 0; i < quantity; i++) {
+    wizards.push({
+      name: getRandomItem(NAMES) + ' ' + getRandomItem(SURNAMES),
+      coatColor: getRandomItem(COAT_COLORS),
+      eyesColor: getRandomItem(EYES_COLORS)});
+  }
+};
+
+generateWizards(4);
 
 var createWizard = function (arr, index) {
   var wizardElement = wizardTemplate.cloneNode(true);
@@ -33,13 +37,13 @@ var createWizard = function (arr, index) {
   return wizardElement;
 };
 
-var addWizard = function () {
+var renderWizards = function (arr) {
   var fragment = document.createDocumentFragment();
-  for (var j = 0; j <= wizards.length - 1; j++) {
-    fragment.appendChild(createWizard(wizards, j));
+  for (var j = 0; j <= arr.length - 1; j++) {
+    fragment.appendChild(createWizard(arr, j));
   }
   similarListElement.appendChild(fragment);
 };
 
-addWizard();
+renderWizards(wizards);
 setupModal.querySelector('.setup-similar').classList.remove('hidden');
