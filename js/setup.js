@@ -4,12 +4,20 @@ var NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Крис�
 var SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Нионго'];
 var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var QUANTITY_WIZARDS = 4;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 var setupModal = document.querySelector('.setup');
 var wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 var similarListElement = setupModal.querySelector('.setup-similar-list');
-
-setupModal.classList.remove('hidden');
+var userAvatar = document.querySelector('.setup-open');
+var closeSetupModal = setupModal.querySelector('.setup-close');
+var inputSetupModal = setupModal.querySelector('.setup-user-name');
+var wizardCoat = document.querySelector('.wizard-coat');
+var wizardEyes = document.querySelector('.wizard-eyes');
+var fireBall = document.querySelector('.setup-fireball-wrap');
+var fireBallInput = fireBall.querySelector('input');
 
 var getRandomItem = function (arr) {
   return arr[Math.round(Math.random() * (arr.length - 1))];
@@ -49,3 +57,65 @@ var renderWizards = function (arr) {
 
 renderWizards(wizards);
 setupModal.querySelector('.setup-similar').classList.remove('hidden');
+
+var onModalEscPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    closeModal();
+  }
+};
+
+var openModal = function () {
+  setupModal.classList.remove('hidden');
+  document.addEventListener('keydown', onModalEscPress);
+};
+
+var closeModal = function () {
+  setupModal.classList.add('hidden');
+  document.removeEventListener('keydown', onModalEscPress);
+};
+
+var changeColorFill = function (elem, colors) {
+  elem.style.fill = getRandomItem(colors);
+};
+
+var changeColorBackground = function () {
+  var fireballColor = getRandomItem(FIREBALL_COLORS);
+  fireBall.style.backgroundColor = fireballColor;
+  fireBallInput.value = fireballColor;
+};
+
+userAvatar.addEventListener('click', function () {
+  openModal();
+});
+
+userAvatar.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    openModal();
+  }
+});
+
+closeSetupModal.addEventListener('click', function () {
+  closeModal();
+});
+
+closeSetupModal.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closeModal();
+  }
+});
+
+inputSetupModal.addEventListener('keydown', function (evt) {
+  evt.stopPropagation();
+});
+
+wizardCoat.addEventListener('click', function () {
+  changeColorFill(wizardCoat, COAT_COLORS);
+});
+
+wizardEyes.addEventListener('click', function () {
+  changeColorFill(wizardEyes, EYES_COLORS);
+});
+
+fireBall.addEventListener('click', function () {
+  changeColorBackground();
+});
