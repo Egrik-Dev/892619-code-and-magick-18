@@ -7,7 +7,6 @@
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
   var QUANTITY_WIZARDS = 4;
-  // window.setupModal = document.querySelector('.setup');
   var wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
   var similarListElement = window.setupModal.querySelector('.setup-similar-list');
   var wizardCoat = document.querySelector('.wizard-coat');
