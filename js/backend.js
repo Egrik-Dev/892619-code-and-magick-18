@@ -30,7 +30,7 @@
         onError(MESSAGE_GET + ' Запрос не успел выполниться за: ' + (xhr.timeout / 1000) + ' сек.');
       });
 
-      xhr.timeout = 1000;
+      xhr.timeout = 10000;
 
       xhr.send();
     },
