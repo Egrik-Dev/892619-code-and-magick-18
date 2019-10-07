@@ -4,6 +4,13 @@
   var COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
   var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
+  var METHOD_GET = 'GET';
+  var METHOD_POST = 'POST';
+  var URL_LOAD = 'https://js.dump.academy/code-and-magick/data';
+  var URL_SAVE = 'https://js.dump.academy/code-and-magick';
+  var MESSAGE_GET = 'Ошибка получения данных!';
+  var MESSAGE_POST = 'Ошибка отправки данных!';
+  var HEIGHT_SECOND_ERROR = 60;
   var wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
   var similarListElement = window.setupModal.querySelector('.setup-similar-list');
   var wizardCoat = document.querySelector('.wizard-coat');
@@ -52,11 +59,11 @@
   };
 
   form.addEventListener('submit', function (evt) {
-    window.backend.save(new FormData(form), successSave, errorLoad);
+    window.postGetData(METHOD_POST, URL_SAVE, MESSAGE_POST, successSave, errorLoad, HEIGHT_SECOND_ERROR, new FormData(form));
     evt.preventDefault();
   });
 
-  window.backend.load(successLoad, errorLoad);
+  window.postGetData(METHOD_GET, URL_LOAD, MESSAGE_GET, successLoad, errorLoad);
 
   var changeColorFill = function (elem, colors) {
     elem.style.fill = getRandomItem(colors);
