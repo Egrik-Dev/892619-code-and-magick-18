@@ -5,7 +5,7 @@
   var ONE_SECOND = 1000;
   var TEN_SECONDS = 10000;
 
-  window.postGetData = function (method, url, message, onLoad, onError, height, data) {
+  window.ajax = function (method, url, onLoad, onError, data) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
@@ -15,16 +15,16 @@
       if (xhr.status === SUCCESS_STATUS) {
         onLoad(xhr.response);
       } else {
-        onError(message + ' Статус ответа: ' + xhr.status + ' ' + xhr.statusText, height);
+        onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
     xhr.addEventListener('error', function () {
-      onError(message + ' Произошла ошибка соединения', height);
+      onError('Произошла ошибка соединения');
     });
 
     xhr.addEventListener('timeout', function () {
-      onError(message + ' Запрос не успел выполниться за: ' + (xhr.timeout / ONE_SECOND) + ' сек.', height);
+      onError('Запрос не успел выполниться за: ' + (xhr.timeout / ONE_SECOND) + ' сек.');
     });
 
     xhr.timeout = TEN_SECONDS;

@@ -6,10 +6,8 @@
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
   var METHOD_GET = 'GET';
   var METHOD_POST = 'POST';
-  var URL_LOAD = 'https://js.dump.academy/code-and-magick/data';
-  var URL_SAVE = 'https://js.dump.academy/code-and-magick';
-  var MESSAGE_GET = 'Ошибка получения данных!';
-  var MESSAGE_POST = 'Ошибка отправки данных!';
+  var URL_LOAD = 'https://js.dump.academy/code-and-magick/data2';
+  var URL_SAVE = 'https://js.dump.academy/code-and-magick2';
   var HEIGHT_SECOND_ERROR = 60;
   var wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
   var similarListElement = window.setupModal.querySelector('.setup-similar-list');
@@ -18,6 +16,7 @@
   var fireBall = document.querySelector('.setup-fireball-wrap');
   var fireBallInput = fireBall.querySelector('input');
   var form = window.setupModal.querySelector('.setup-wizard-form');
+  var body = document.querySelector('body');
 
   var getRandomItem = function (arr) {
     return arr[Math.round(Math.random() * (arr.length - 1))];
@@ -44,11 +43,14 @@
     window.setupModal.querySelector('.setup-similar').classList.remove('hidden');
   };
 
-  var errorLoad = function (errorMessage, height) {
+  var errorLoad = function (errorMessage) {
     var node = document.createElement('div');
+    node.classList.add('error');
     node.classList.add('bounce');
     node.style = 'z-index: 100; margin: 5px 250px; padding: 10px 0px; border-radius: 35px; text-align: center; background-color: red; position: absolute; left: 0px; right: 0px; font-size: 30px;';
-    node.style.top = height + 'px';
+    if (body.querySelector('.error')) {
+      node.style.top = HEIGHT_SECOND_ERROR + 'px';
+    }
 
     node.textContent = errorMessage;
     document.body.insertAdjacentElement('afterbegin', node);
@@ -59,11 +61,11 @@
   };
 
   form.addEventListener('submit', function (evt) {
-    window.postGetData(METHOD_POST, URL_SAVE, MESSAGE_POST, successSave, errorLoad, HEIGHT_SECOND_ERROR, new FormData(form));
+    window.ajax(METHOD_POST, URL_SAVE, successSave, errorLoad, new FormData(form));
     evt.preventDefault();
   });
 
-  window.postGetData(METHOD_GET, URL_LOAD, MESSAGE_GET, successLoad, errorLoad);
+  window.ajax(METHOD_GET, URL_LOAD, successLoad, errorLoad);
 
   var changeColorFill = function (elem, colors) {
     elem.style.fill = getRandomItem(colors);
