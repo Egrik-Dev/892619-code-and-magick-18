@@ -22,8 +22,6 @@
     document.removeEventListener('keydown', onModalEscPress);
   };
 
-  openModal();
-
   userAvatar.addEventListener('click', function () {
     openModal();
   });

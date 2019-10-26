@@ -6,11 +6,14 @@
   var FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
   var METHOD_POST = 'POST';
   var URL_SAVE = 'https://js.dump.academy/code-and-magick';
+  var FILE_TYPES = ['gif', 'jpg', 'png', 'jpeg'];
   var wizardCoat = document.querySelector('.wizard-coat');
   var wizardEyes = document.querySelector('.wizard-eyes');
   var fireBall = document.querySelector('.setup-fireball-wrap');
   var fireBallInput = fireBall.querySelector('input');
   var form = window.setupModal.querySelector('.setup-wizard-form');
+  var prewiev = document.querySelector('.setup-user-pic');
+  var avatarFileChoser = document.querySelector('.upload input[type=file]');
 
   var successSave = function () {
     window.setupModal.classList.add('hidden');
@@ -45,5 +48,27 @@
 
   fireBall.addEventListener('click', function () {
     changeColorBackground();
+  });
+
+  avatarFileChoser.addEventListener('change', function () {
+    var file = avatarFileChoser.files[0];
+
+    if (file) {
+      var fileName = file.name.toLowerCase();
+
+      var matches = FILE_TYPES.some(function (item) {
+        return fileName.endsWith(item);
+      });
+
+      if (matches) {
+        var reader = new FileReader();
+
+        reader.addEventListener('load', function () {
+          prewiev.src = reader.result;
+        });
+
+        reader.readAsDataURL(file);
+      }
+    }
   });
 })();
